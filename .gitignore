@@ -1,0 +1,94 @@
+# Build output
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]uild/
+[Bb]uilds/
+[Pp]ublish/
+[Pp]ublishes/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vcxproj.user
+*.pidb
+*.svclog
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Files not to commit
+*.local.json
+appsettings.local.json
+appsettings.Development.json
+secrets.json
+
+# MSTest / test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+
+# Logs
+*.log
+logs/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary / backup files
+*.bak
+*.tmp
+*.swp
+*~
+
+# Publish profiles
+*.azurePubxml
+*.pubxml
+*.publishproj
+PublishProfiles/
+
+# ClickOnce
+publish/
+*.application
+*.deploy
+*.appref-ms
+
+# Misc
+*.pfx
+*.snk

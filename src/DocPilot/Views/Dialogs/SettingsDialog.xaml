@@ -1,0 +1,95 @@
+<Window x:Class="DocPilot.Views.Dialogs.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:res="clr-namespace:DocPilot.Resources"
+        xmlns:models="clr-namespace:DocPilot.Models"
+        xmlns:conv="clr-namespace:DocPilot.Converters"
+        xmlns:vm="clr-namespace:DocPilot.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
+        Title="{x:Static res:Strings.Settings}"
+        Width="540" Height="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Background="{DynamicResource Palette.Background}">
+
+    <Window.Resources>
+        <conv:InverseBoolConverter x:Key="InverseBool" />
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource TitleText}"
+                   Margin="0,0,0,16"
+                   Text="{x:Static res:Strings.Settings}" />
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <!-- API key -->
+            <TextBlock Margin="0,0,0,4" Text="{x:Static res:Strings.ApiKey}" />
+            <Grid Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <PasswordBox Grid.Column="0" x:Name="ApiKeyBox"
+                             PasswordChar="●"
+                             Margin="0,0,8,0"
+                             Padding="8,6"
+                             Background="{DynamicResource Palette.InputBackground}"
+                             Foreground="{DynamicResource Palette.TextPrimary}"
+                             PasswordChanged="ApiKeyBox_OnPasswordChanged" />
+                <Button Grid.Column="1"
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding ValidateCommand}"
+                        Content="{x:Static res:Strings.Validate}" />
+            </Grid>
+            <TextBlock Style="{StaticResource CaptionText}"
+                       Margin="0,0,0,4"
+                       Text="{x:Static res:Strings.ApiKeyHint}" />
+            <TextBlock Style="{StaticResource CaptionText}"
+                       Margin="0,0,0,16"
+                       Text="{Binding ValidationMessage}" />
+
+            <!-- Model -->
+            <TextBlock Margin="0,0,0,4" Text="{x:Static res:Strings.Model}" />
+            <ComboBox Margin="0,0,0,16"
+                      ItemsSource="{Binding AvailableModels}"
+                      SelectedItem="{Binding Model, Mode=TwoWay}" />
+
+            <!-- Theme -->
+            <TextBlock Margin="0,0,0,4" Text="{x:Static res:Strings.Theme}" />
+            <ComboBox Margin="0,0,0,16"
+                      ItemsSource="{Binding AvailableThemes}"
+                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
+
+            <!-- Language -->
+            <TextBlock Margin="0,0,0,4" Text="{x:Static res:Strings.Language}" />
+            <ComboBox Margin="0,0,0,16"
+                      ItemsSource="{Binding AvailableLanguages}"
+                      SelectedValuePath="Tag"
+                      DisplayMemberPath="DisplayName"
+                      SelectedValue="{Binding Language, Mode=TwoWay}" />
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Style="{StaticResource SecondaryButton}"
+                    Margin="0,0,8,0"
+                    Command="{Binding CancelCommand}"
+                    Content="{x:Static res:Strings.Cancel}" />
+            <Button Style="{StaticResource PrimaryButton}"
+                    Command="{Binding SaveCommand}"
+                    Content="{x:Static res:Strings.Save}" />
+        </StackPanel>
+    </Grid>
+</Window>

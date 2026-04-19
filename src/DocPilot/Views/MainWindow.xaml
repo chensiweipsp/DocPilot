@@ -1,0 +1,159 @@
+<Window x:Class="DocPilot.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:controls="clr-namespace:DocPilot.Views.Controls"
+        xmlns:conv="clr-namespace:DocPilot.Converters"
+        xmlns:res="clr-namespace:DocPilot.Resources"
+        xmlns:vm="clr-namespace:DocPilot.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="{x:Static res:Strings.AppTitle}"
+        Width="1280" Height="800"
+        MinWidth="900" MinHeight="600"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Background="{DynamicResource Palette.Background}"
+        AllowDrop="True"
+        Drop="Window_Drop"
+        DragOver="Window_DragOver">
+
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Top bar -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource Palette.Surface}"
+                BorderBrush="{DynamicResource Palette.Border}"
+                BorderThickness="0,0,0,1"
+                Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Branding -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Grid Margin="0,0,10,0">
+                        <Ellipse Width="32" Height="32" Fill="{DynamicResource Accent.HeroGradient}" Opacity="0.25">
+                            <Ellipse.Effect>
+                                <BlurEffect Radius="8" />
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        <TextBlock Text="✈"
+                                   FontSize="20"
+                                   Foreground="{DynamicResource Accent.HeroGradient}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource Accent.HeroGradient}"
+                               Text="{x:Static res:Strings.AppTitle}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Status -->
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="24,0"
+                           Style="{StaticResource CaptionText}"
+                           TextTrimming="CharacterEllipsis"
+                           Text="{Binding StatusText}" />
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <!-- Demo Mode badge -->
+                    <Border Style="{StaticResource DemoBadge}"
+                            VerticalAlignment="Center"
+                            Margin="0,0,10,0"
+                            Visibility="{Binding IsDemoMode, Converter={StaticResource BoolToVisibility}}"
+                            ToolTip="Add a Claude API key in Settings to talk to the real model.">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="6" Height="6" Fill="{DynamicResource Accent.Warning}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                            <TextBlock Text="Demo Mode"
+                                       FontSize="{DynamicResource Font.Size.Small}"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource Accent.Warning}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Button Style="{StaticResource SecondaryButton}"
+                            Margin="0,0,8,0"
+                            Visibility="{Binding HasDocument, Converter={StaticResource BoolToVisibility}}"
+                            Command="{Binding OpenCommand}"
+                            Content="{x:Static res:Strings.OpenDocument}" />
+                    <Button Style="{StaticResource SecondaryButton}"
+                            Command="{Binding OpenSettingsCommand}"
+                            Content="{x:Static res:Strings.Settings}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main content: Welcome empty state OR split panes -->
+        <Grid Grid.Row="1">
+            <!-- Welcome / empty state -->
+            <controls:WelcomeView DataContext="{Binding}"
+                                  Visibility="{Binding HasDocument, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
+
+            <!-- Working split view -->
+            <Grid Visibility="{Binding HasDocument, Converter={StaticResource BoolToVisibility}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="320" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MinWidth="360" />
+                </Grid.ColumnDefinitions>
+
+                <controls:DocumentPreviewControl Grid.Column="0" DataContext="{Binding DocumentVm}" />
+
+                <GridSplitter Grid.Column="1" Width="1"
+                              HorizontalAlignment="Stretch"
+                              Background="{DynamicResource Palette.Border}" />
+
+                <controls:ChatPanelControl Grid.Column="2" DataContext="{Binding ChatVm}" />
+            </Grid>
+
+            <!-- Parse progress overlay -->
+            <Border Background="#CC0B1220"
+                    Visibility="{Binding IsParsing, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ui:ProgressRing IsActive="True" Width="48" Height="48"
+                                     Foreground="{DynamicResource Accent.Primary}" />
+                    <TextBlock Style="{StaticResource CaptionText}" Margin="0,12,0,0"
+                               HorizontalAlignment="Center"
+                               Text="{Binding StatusText}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Footer -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource Palette.Surface}"
+                BorderBrush="{DynamicResource Palette.Border}"
+                BorderThickness="0,1,0,0"
+                Padding="20,7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Style="{StaticResource CaptionText}"
+                           VerticalAlignment="Center"
+                           Text="{x:Static res:Strings.Tagline}" />
+                <TextBlock Grid.Column="1"
+                           Style="{StaticResource CaptionText}"
+                           VerticalAlignment="Center"
+                           Text="Built with .NET 8 · WPF · Claude API" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

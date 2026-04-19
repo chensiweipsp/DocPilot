@@ -1,0 +1,40 @@
+<UserControl x:Class="DocPilot.Views.Controls.QuickActionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:res="clr-namespace:DocPilot.Resources"
+             xmlns:models="clr-namespace:DocPilot.Models"
+             xmlns:vm="clr-namespace:DocPilot.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:ChatViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource QuickActionButton}"
+                Margin="0,0,8,0"
+                Command="{Binding QuickActionCommand}"
+                CommandParameter="{x:Static models:QuickAction.Summarize}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📝" Margin="0,0,6,0" />
+                <TextBlock Text="{x:Static res:Strings.Summarize}" />
+            </StackPanel>
+        </Button>
+        <Button Style="{StaticResource QuickActionButton}"
+                Margin="0,0,8,0"
+                Command="{Binding QuickActionCommand}"
+                CommandParameter="{x:Static models:QuickAction.Translate}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="🌐" Margin="0,0,6,0" />
+                <TextBlock Text="{x:Static res:Strings.Translate}" />
+            </StackPanel>
+        </Button>
+        <Button Style="{StaticResource QuickActionButton}"
+                Command="{Binding QuickActionCommand}"
+                CommandParameter="{x:Static models:QuickAction.AskQuestions}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="💡" Margin="0,0,6,0" />
+                <TextBlock Text="{x:Static res:Strings.AskQuestions}" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,234 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Primary gradient button with soft shadow and press-scale feedback -->
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Accent.PrimaryGradient}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="18,9" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{DynamicResource Corner.Button}"
+                                Padding="{TemplateBinding Padding}"
+                                Effect="{DynamicResource Shadow.Card}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Effect" Value="{DynamicResource Shadow.Glow.Primary}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.82" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Secondary (outline) button -->
+    <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{DynamicResource Palette.Border}"
+                            BorderThickness="1"
+                            CornerRadius="{DynamicResource Corner.Button}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Palette.Hover}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Accent.Primary}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.75" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Quick-action pill (chat quick actions) -->
+    <Style x:Key="QuickActionButton" TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+        <Setter Property="Padding" Value="14,7" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}" />
+    </Style>
+
+    <!-- Ghost / icon-only button with no border -->
+    <Style x:Key="GhostButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{DynamicResource Corner.Button}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Palette.Hover}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Chat input box -->
+    <Style x:Key="ChatInputBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{DynamicResource Palette.InputBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Palette.Border}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                            CornerRadius="{DynamicResource Corner.Input}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Accent.Primary}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Default TextBlock -->
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Body}" />
+    </Style>
+
+    <!-- Caption (secondary) text -->
+    <Style x:Key="CaptionText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextSecondary}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Small}" />
+    </Style>
+
+    <!-- Subtitle text -->
+    <Style x:Key="SubtitleText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Subtitle}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!-- Title text -->
+    <Style x:Key="TitleText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Palette.TextPrimary}" />
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Title}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <!-- Hero text with gradient fill -->
+    <Style x:Key="HeroText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{DynamicResource Font.Size.Hero}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource Accent.HeroGradient}" />
+    </Style>
+
+    <!-- Surface card -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Palette.Surface}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Corner.Card}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Palette.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect" Value="{DynamicResource Shadow.Soft}" />
+    </Style>
+
+    <!-- Flat card (no shadow) for use inside other cards -->
+    <Style x:Key="FlatCard" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource Palette.Surface}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource Corner.Card}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Palette.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <!-- Prompt suggestion card (clickable in chat empty state) -->
+    <Style x:Key="PromptCardButton" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{DynamicResource Palette.InputBackground}"
+                            BorderBrush="{DynamicResource Palette.Border}"
+                            BorderThickness="1"
+                            CornerRadius="{DynamicResource Corner.Card}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Accent.Primary}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Palette.Hover}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Demo-mode pill in the top bar -->
+    <Style x:Key="DemoBadge" TargetType="Border">
+        <Setter Property="Background" Value="#33F59E0B" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Accent.Warning}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="999" />
+        <Setter Property="Padding" Value="10,4" />
+    </Style>
+</ResourceDictionary>

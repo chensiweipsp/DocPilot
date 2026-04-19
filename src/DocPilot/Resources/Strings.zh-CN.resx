@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="AppTitle" xml:space="preserve"><value>DocPilot</value></data>
+  <data name="Tagline" xml:space="preserve"><value>原生 Windows 文档 AI 对话助手</value></data>
+  <data name="OpenDocument" xml:space="preserve"><value>打开文档</value></data>
+  <data name="DropHere" xml:space="preserve"><value>拖拽 PDF / DOCX / TXT 文件到这里</value></data>
+  <data name="DropHint" xml:space="preserve"><value>或点击选择文件</value></data>
+  <data name="SupportedDocumentsFilter" xml:space="preserve"><value>支持的文档 (*.pdf;*.docx;*.txt;*.md)</value></data>
+
+  <data name="StatusReady" xml:space="preserve"><value>就绪。请打开一个文档开始。</value></data>
+  <data name="StatusParsing" xml:space="preserve"><value>正在解析 {0}…</value></data>
+  <data name="StatusLoaded" xml:space="preserve"><value>已加载：{0}（共 {1} 页）</value></data>
+
+  <data name="PageFooter" xml:space="preserve"><value>第 {0} 页 / 共 {1} 页</value></data>
+  <data name="Previous" xml:space="preserve"><value>上一页</value></data>
+  <data name="Next" xml:space="preserve"><value>下一页</value></data>
+
+  <data name="ChatPlaceholder" xml:space="preserve"><value>给 DocPilot 发消息……（Enter 发送，Shift+Enter 换行）</value></data>
+  <data name="Send" xml:space="preserve"><value>发送</value></data>
+  <data name="Stop" xml:space="preserve"><value>停止</value></data>
+  <data name="Clear" xml:space="preserve"><value>清空</value></data>
+  <data name="Thinking" xml:space="preserve"><value>正在思考……</value></data>
+  <data name="Summarize" xml:space="preserve"><value>总结</value></data>
+  <data name="Translate" xml:space="preserve"><value>翻译</value></data>
+  <data name="AskQuestions" xml:space="preserve"><value>提问建议</value></data>
+
+  <data name="ExportAsMarkdown" xml:space="preserve"><value>导出为 Markdown</value></data>
+  <data name="ExportAsText" xml:space="preserve"><value>导出为纯文本</value></data>
+  <data name="MarkdownFilter" xml:space="preserve"><value>Markdown 文件 (*.md)</value></data>
+  <data name="TextFilter" xml:space="preserve"><value>纯文本 (*.txt)</value></data>
+
+  <data name="Settings" xml:space="preserve"><value>设置</value></data>
+  <data name="ApiKey" xml:space="preserve"><value>Claude API 密钥</value></data>
+  <data name="ApiKeyHint" xml:space="preserve"><value>通过 Windows DPAPI 加密保存（仅限当前用户）。</value></data>
+  <data name="Model" xml:space="preserve"><value>模型</value></data>
+  <data name="Theme" xml:space="preserve"><value>主题</value></data>
+  <data name="Language" xml:space="preserve"><value>语言</value></data>
+  <data name="Validate" xml:space="preserve"><value>验证</value></data>
+  <data name="ValidatingApiKey" xml:space="preserve"><value>正在验证……</value></data>
+  <data name="ApiKeyValid" xml:space="preserve"><value>API 密钥有效。</value></data>
+  <data name="ApiKeyInvalid" xml:space="preserve"><value>API 密钥无效。</value></data>
+  <data name="Save" xml:space="preserve"><value>保存</value></data>
+  <data name="Cancel" xml:space="preserve"><value>取消</value></data>
+
+  <data name="ConfirmClearTitle" xml:space="preserve"><value>清空对话</value></data>
+  <data name="ConfirmClearBody" xml:space="preserve"><value>这将清除当前对话的全部消息，确认继续？</value></data>
+
+  <data name="ErrorTitle" xml:space="preserve"><value>DocPilot</value></data>
+  <data name="ErrorFileNotFound" xml:space="preserve"><value>找不到所选文件。</value></data>
+  <data name="ErrorFileTooLarge" xml:space="preserve"><value>文件超过 50 MB 限制，请选择更小的文件。</value></data>
+  <data name="ErrorUnsupportedFormat" xml:space="preserve"><value>不支持该文件格式，请选择 PDF、DOCX 或 TXT 文件。</value></data>
+  <data name="ErrorParseFailed" xml:space="preserve"><value>无法解析该文件，请检查文件格式。</value></data>
+  <data name="ErrorApiKeyMissing" xml:space="preserve"><value>尚未配置 Claude API 密钥，请在设置中添加。</value></data>
+  <data name="ErrorNetwork" xml:space="preserve"><value>网络连接失败，请检查网络后重试。</value></data>
+  <data name="ErrorUnexpected" xml:space="preserve"><value>意外错误</value></data>
+</root>

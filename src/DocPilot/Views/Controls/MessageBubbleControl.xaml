@@ -1,0 +1,165 @@
+<UserControl x:Class="DocPilot.Views.Controls.MessageBubbleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:DocPilot.Converters"
+             xmlns:models="clr-namespace:DocPilot.Models"
+             xmlns:res="clr-namespace:DocPilot.Resources"
+             xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=models:ChatMessage}">
+
+    <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+        <conv:MessageRoleToAlignmentConverter x:Key="RoleToAlignment" />
+        <conv:MessageRoleToBrushConverter x:Key="RoleToBrush" />
+        <conv:StringToMarkdownConverter x:Key="StringToMarkdown" />
+
+        <!-- Subtle slide-up + fade on new bubbles -->
+        <Storyboard x:Key="EnterStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.28" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             From="12" To="0" Duration="0:0:0.32">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Style x:Key="Dot" TargetType="Ellipse">
+            <Setter Property="Width" Value="7" />
+            <Setter Property="Height" Value="7" />
+            <Setter Property="Fill" Value="White" />
+            <Setter Property="Opacity" Value="0.4" />
+            <Setter Property="Margin" Value="3,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="0,6" HorizontalAlignment="{Binding Role, Converter={StaticResource RoleToAlignment}}">
+        <Grid.RenderTransform>
+            <TranslateTransform Y="0" />
+        </Grid.RenderTransform>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard Storyboard="{StaticResource EnterStoryboard}" />
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <Border MaxWidth="640"
+                CornerRadius="{DynamicResource Corner.Bubble}"
+                Padding="{DynamicResource Padding.Bubble}"
+                Background="{Binding Role, Converter={StaticResource RoleToBrush}}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="12" ShadowDepth="1" Direction="270" Opacity="0.3" Color="Black" />
+            </Border.Effect>
+
+            <Grid>
+                <!-- "Thinking" animated dots shown while streaming with no text yet -->
+                <StackPanel x:Name="ThinkingDots"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsStreaming}" Value="True" />
+                                        <Condition Binding="{Binding Content}" Value="" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Ellipse Style="{StaticResource Dot}">
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0.3" To="1" Duration="0:0:0.6"
+                                                         AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <Ellipse Style="{StaticResource Dot}">
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="0:0:0.2" RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0.3" To="1" Duration="0:0:0.6"
+                                                         AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <Ellipse Style="{StaticResource Dot}">
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="0:0:0.4" RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0.3" To="1" Duration="0:0:0.6"
+                                                         AutoReverse="True" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                </StackPanel>
+
+                <!-- Plain text bubble for user / error / system -->
+                <TextBlock Text="{Binding Content}"
+                           Foreground="White"
+                           TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static models:MessageRole.User}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static models:MessageRole.Error}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static models:MessageRole.System}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Markdown bubble for assistant -->
+                <FlowDocumentScrollViewer x:Name="AssistantDoc"
+                                          Document="{Binding Content, Converter={StaticResource StringToMarkdown}}"
+                                          Background="Transparent"
+                                          Foreground="White"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          IsToolBarVisible="False"
+                                          Padding="0"
+                                          BorderThickness="0">
+                    <FlowDocumentScrollViewer.Style>
+                        <Style TargetType="FlowDocumentScrollViewer">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static models:MessageRole.Assistant}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </FlowDocumentScrollViewer.Style>
+                </FlowDocumentScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

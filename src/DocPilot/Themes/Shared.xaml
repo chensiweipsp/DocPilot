@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Accent colours shared across themes -->
+    <Color x:Key="Accent.PrimaryColor">#3B82F6</Color>
+    <Color x:Key="Accent.PrimaryLightColor">#60A5FA</Color>
+    <Color x:Key="Accent.AssistantColor">#8B5CF6</Color>
+    <Color x:Key="Accent.AssistantLightColor">#A78BFA</Color>
+    <Color x:Key="Accent.UserColor">#10B981</Color>
+    <Color x:Key="Accent.UserLightColor">#34D399</Color>
+    <Color x:Key="Accent.ErrorColor">#EF4444</Color>
+    <Color x:Key="Accent.WarningColor">#F59E0B</Color>
+
+    <SolidColorBrush x:Key="Accent.Primary"   Color="{StaticResource Accent.PrimaryColor}" />
+    <SolidColorBrush x:Key="Accent.Assistant" Color="{StaticResource Accent.AssistantColor}" />
+    <SolidColorBrush x:Key="Accent.User"      Color="{StaticResource Accent.UserColor}" />
+    <SolidColorBrush x:Key="Accent.Error"     Color="{StaticResource Accent.ErrorColor}" />
+    <SolidColorBrush x:Key="Accent.Warning"   Color="{StaticResource Accent.WarningColor}" />
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="Accent.PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Accent.PrimaryLightColor}" Offset="0" />
+        <GradientStop Color="{StaticResource Accent.PrimaryColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Accent.AssistantGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Accent.AssistantLightColor}" Offset="0" />
+        <GradientStop Color="{StaticResource Accent.AssistantColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Accent.UserGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Accent.UserLightColor}" Offset="0" />
+        <GradientStop Color="{StaticResource Accent.UserColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Accent.HeroGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#3B82F6" Offset="0" />
+        <GradientStop Color="#8B5CF6" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Typography -->
+    <FontFamily x:Key="Font.UI">Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="Font.Mono">Consolas, Cascadia Code, Courier New, monospace</FontFamily>
+
+    <sys:Double x:Key="Font.Size.Tiny">11</sys:Double>
+    <sys:Double x:Key="Font.Size.Small">12</sys:Double>
+    <sys:Double x:Key="Font.Size.Body">14</sys:Double>
+    <sys:Double x:Key="Font.Size.Subtitle">16</sys:Double>
+    <sys:Double x:Key="Font.Size.Title">18</sys:Double>
+    <sys:Double x:Key="Font.Size.Hero">42</sys:Double>
+
+    <!-- Shadows -->
+    <DropShadowEffect x:Key="Shadow.Soft"
+                      BlurRadius="20"
+                      ShadowDepth="2"
+                      Direction="270"
+                      Opacity="0.35"
+                      Color="#000000" />
+
+    <DropShadowEffect x:Key="Shadow.Card"
+                      BlurRadius="14"
+                      ShadowDepth="1"
+                      Direction="270"
+                      Opacity="0.25"
+                      Color="#000000" />
+
+    <DropShadowEffect x:Key="Shadow.Glow.Primary"
+                      BlurRadius="24"
+                      ShadowDepth="0"
+                      Opacity="0.55"
+                      Color="#3B82F6" />
+
+    <!-- Geometry -->
+    <CornerRadius x:Key="Corner.Button">8</CornerRadius>
+    <CornerRadius x:Key="Corner.Input">6</CornerRadius>
+    <CornerRadius x:Key="Corner.Card">12</CornerRadius>
+    <CornerRadius x:Key="Corner.Bubble">12</CornerRadius>
+
+    <Thickness x:Key="Padding.Panel">16</Thickness>
+    <Thickness x:Key="Padding.Bubble">12,8</Thickness>
+</ResourceDictionary>
