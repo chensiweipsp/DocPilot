@@ -1,0 +1,122 @@
+On Conversational Interfaces for Long-Form Document Analysis:
+A Comparative Study of Desktop and Web Clients
+================================================================
+
+Authors: Fictional Research Group, Department of Human-Computer
+         Interaction, DocPilot University
+Published: Proceedings of the 2026 Symposium on AI Interfaces
+Pages: 12 (sample excerpt)
+
+--------------------------------------------------------------------
+Abstract
+--------------------------------------------------------------------
+
+The emergence of general-purpose large language models has shifted
+document analysis from keyword search to open-ended conversation.
+While web-based chat clients such as Claude.ai and ChatGPT dominate
+the current landscape, their browser-first architecture imposes
+structural costs: latency from network round-trips, plaintext
+transmission of sensitive content to remote servers, and a disjoint
+experience relative to native desktop tooling.
+
+In this paper we examine an alternative path: thin native desktop
+clients that keep the conversational UX while delegating inference
+to hosted LLM APIs. We implement and evaluate a reference system,
+"DocPilot", which pairs Windows Presentation Foundation (WPF) with
+Anthropic's Claude API over a Server-Sent Events (SSE) stream.
+
+--------------------------------------------------------------------
+1. Introduction
+--------------------------------------------------------------------
+
+Professional users in regulated industries face a peculiar dilemma:
+the tools best suited to analyse long documents (LLM chat interfaces)
+are precisely the tools their employers forbid them to paste those
+documents into. A 2025 survey of compliance officers found that 74 %
+of Fortune 500 organisations restrict employee use of browser-based
+AI chat for any document classified above "public".
+
+A native desktop client can address this gap in three ways:
+
+  1. By storing credentials under OS-native secure storage
+     (e.g., Windows DPAPI, macOS Keychain) rather than browser
+     cookies vulnerable to cross-site attacks.
+  2. By performing document parsing locally, ensuring only the
+     resulting text — and only as much of it as the user explicitly
+     sends — crosses the network boundary.
+  3. By presenting a conversational UX indistinguishable from the
+     web incumbents, avoiding the "enterprise desktop tool" stigma
+     that hurts adoption.
+
+--------------------------------------------------------------------
+2. Contributions
+--------------------------------------------------------------------
+
+This paper makes the following contributions:
+
+ (a) We describe the architecture of DocPilot, an open-source WPF
+     reference implementation of the "thin desktop LLM client"
+     pattern, built on .NET 8 and the MVVM paradigm.
+
+ (b) We characterise the performance of Anthropic's SSE streaming
+     endpoint when consumed directly from a native HttpClient,
+     reporting median time-to-first-token of 412 ms across 1,000
+     trials on a residential broadband connection in a major US
+     metropolitan area.
+
+ (c) We compare user-reported satisfaction between DocPilot and
+     an equivalent browser client (Claude.ai) on a 24-participant
+     within-subjects study covering PDF summarisation, document
+     translation, and open-ended Q&A tasks. DocPilot scored
+     significantly higher on perceived latency (p < 0.01) and
+     perceived trust (p < 0.05) without meaningful differences
+     in answer quality.
+
+--------------------------------------------------------------------
+3. Architecture
+--------------------------------------------------------------------
+
+DocPilot is organised into five layers: Views (XAML), ViewModels
+(CommunityToolkit.Mvvm), Services (behind interfaces),
+Models (immutable plain types), and a presentation layer of
+Converters, Themes, and Resource dictionaries. Dependency
+injection is provided by Microsoft.Extensions.Hosting, giving the
+client the same composition-root pattern familiar from ASP.NET
+Core server projects.
+
+Document parsing is pluggable: three implementations of
+IDocumentParser cover PDF (via PdfPig), DOCX (via the OpenXML
+SDK), and plain text, with virtual pagination applied uniformly.
+Adding a new format requires roughly 40 lines of code plus DI
+registration.
+
+The streaming pipeline is arguably the most novel aspect: a
+single-purpose SSE parser reads the response body a line at a
+time, yielding text deltas through an IAsyncEnumerable<string>
+that the chat ViewModel consumes with `await foreach`. Each
+delta triggers a property change on the current message, which
+in turn repaints the Markdown bubble in place.
+
+--------------------------------------------------------------------
+4. Future Work
+--------------------------------------------------------------------
+
+Several directions remain open:
+
+  * Vector retrieval for documents beyond the current 10,000-
+    character context window.
+  * Multi-provider abstraction, allowing the same shell to target
+    OpenAI, Google Gemini, or on-premise models.
+  * Vision support for scanned PDFs lacking a text layer.
+
+--------------------------------------------------------------------
+Keywords
+--------------------------------------------------------------------
+
+  human-computer interaction, large language models, Claude API,
+  Server-Sent Events, native desktop, Windows Presentation
+  Foundation, MVVM, document analysis, DPAPI
+
+(This text is a fictional sample shipped with DocPilot to help
+reviewers try the application against academic-style content.
+Any resemblance to real papers is coincidental.)
